@@ -46,6 +46,55 @@ The code was put together on a machine running go1.13.4 darwin/amd64 (on a Mac) 
 
 or just run ./go-wp-ncms and it'll let you know
 
+## Example Netlify CMS config
+This is an example of the Netlify CMS config I am using, which maps to the fields output by the tool.
+```
+media_folder: static/assets
+public_folder: /assets
+
+collections:
+  - name: blog
+    label: "Post"
+    folder: "content/posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}.md"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Type", name: "type", widget: "hidden", default: "blog" }
+      - {
+          label: "Author",
+          name: "author",
+          widget: "relation",
+          collection: "authors",
+          searchFields: ["name"],
+          valueField: "name",
+        }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Featured Image", name: "featuredImage", widget: "image" }
+      - {
+          label: "Featured",
+          name: "featured",
+          widget: "boolean",
+          default: false,
+        }
+      - { label: "Category", name: "category", widget: "string" }
+      - { label: "Tags", name: "tags", widget: "list" }
+      - { label: "Body", name: "body", widget: "markdown" }
+  - name: authors
+    identifier_field: name
+    label: "Author"
+    folder: content/author
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{name}}.md"
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Type", name: "type", widget: "hidden", default: "author" }
+      - { label: "Short Description", name: "short_desc", widget: "string" }
+      - { label: "Image", name: "thumbnail", widget: "image" }
+      - { label: "Bio", name: "bio", widget: "markdown" }
+
+```
+
 ## What if I have problems?
 
 Um. This isn't a supported project, but let me know if you have any issues. Remember - It is customised for my specific needs.
