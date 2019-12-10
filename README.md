@@ -27,7 +27,7 @@ Export Wordpress data to Netlify CMS markdown files
 
 ## Why Go?
 
-Why not? It's on my list of languages to get better at so I thought I'd give it a go.
+Why not? It's on my list of languages to get better at so I thought I'd give it a go. Please note the code is probably not as idomatic as it should be and there are a load of things that could make it better, but this was put together quickly and for my purposes it works as required.
 
 ## Can I use it?
 
