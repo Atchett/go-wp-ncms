@@ -137,6 +137,7 @@ func getMediaFile(URL string, f string) (string, error) {
 			return "", err
 		}
 	}
+	fmt.Fprintf(os.Stdout, "File downloaded : %s\n", fileToDownload)
 
 	return fileToDownload, nil
 }

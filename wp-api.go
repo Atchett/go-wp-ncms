@@ -20,7 +20,7 @@ func getWPData(URL string, numberPerPage int) error {
 	if os.IsNotExist(err) {
 		// if it doesn't run the get
 		for _, t := range getContentTypes() {
-			fmt.Fprintf(os.Stdout, "Getting %s data\n from WP API...", t)
+			fmt.Fprintf(os.Stdout, "Getting %s data from WP API...\n", t)
 			err := getDataFromWPAPI(WPSiteURL, t, numberPerPage)
 			if err != nil {
 				return err

@@ -108,7 +108,8 @@ func generateAuthorFiles() error {
 		}
 		fmt.Fprintln(w, "thumbnail:", fmt.Sprintf("/assets/%s", filepath.Base(avatar)))
 		fmt.Fprintln(w, "---")
-		//fmt.Fprintln(w, "bio: ")
+		// Bio - same as short_desc
+		fmt.Fprintln(w, author.Description)
 		// end content
 		w.Flush()
 	}
@@ -160,7 +161,11 @@ func getAvatar(URL string, filename string) (string, error) {
 		if err != nil {
 			return "", err
 		}
+		fmt.Fprintf(os.Stdout, "File downloaded : %s\n", destFile)
+
 		return destFile, nil
 	}
+	fmt.Fprintf(os.Stdout, "File downloaded : %s\n", downloadedFile)
+
 	return downloadedFile, nil
 }

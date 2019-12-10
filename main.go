@@ -11,7 +11,9 @@ import (
 var WPSiteURL string
 
 func main() {
+
 	fmt.Println("Starting the application...")
+
 	// get the passed in flags
 	siteURL := flag.String("url", "", "URL of the Wordpress site. Don't include trailing /")
 	numberPerPage := flag.Int("num", 10, "Number of values to get per page from the Wordpress API.")
@@ -38,18 +40,18 @@ func main() {
 		log.Fatal(err)
 		os.Exit(1)
 	}
+
 	// generate the output files
 	err = generatePostFiles()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
-
 	}
+
 	err = generateAuthorFiles()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
-
 	}
 
 	fmt.Println("Terminating the application...")
