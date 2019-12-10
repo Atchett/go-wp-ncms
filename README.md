@@ -27,7 +27,7 @@ Export Wordpress data to Netlify CMS markdown files
 
 ## Why Go?
 
-Why not? It's on my list of languages to get better at so I thought I'd give it a go.
+Why not? It's on my list of languages to get better at so I thought I'd give it a go. Please note the code is probably not as idomatic as it should be and there are a load of things that could make it better, but this was put together quickly and for my purposes it works as required.
 
 ## Can I use it?
 
@@ -45,6 +45,55 @@ The code was put together on a machine running go1.13.4 darwin/amd64 (on a Mac) 
 * 3. -refresh= bool - true / false - default false - if you want to refresh the data completely and get all from the API again
 
 or just run ./go-wp-ncms and it'll let you know
+
+## Example Netlify CMS config
+This is an example of the Netlify CMS config I am using, which maps to the fields output by the tool.
+```
+media_folder: static/assets
+public_folder: /assets
+
+collections:
+  - name: blog
+    label: "Post"
+    folder: "content/posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}.md"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Type", name: "type", widget: "hidden", default: "blog" }
+      - {
+          label: "Author",
+          name: "author",
+          widget: "relation",
+          collection: "authors",
+          searchFields: ["name"],
+          valueField: "name",
+        }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Featured Image", name: "featuredImage", widget: "image" }
+      - {
+          label: "Featured",
+          name: "featured",
+          widget: "boolean",
+          default: false,
+        }
+      - { label: "Category", name: "category", widget: "string" }
+      - { label: "Tags", name: "tags", widget: "list" }
+      - { label: "Body", name: "body", widget: "markdown" }
+  - name: authors
+    identifier_field: name
+    label: "Author"
+    folder: content/author
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{name}}.md"
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Type", name: "type", widget: "hidden", default: "author" }
+      - { label: "Short Description", name: "short_desc", widget: "string" }
+      - { label: "Image", name: "thumbnail", widget: "image" }
+      - { label: "Bio", name: "bio", widget: "markdown" }
+
+```
 
 ## What if I have problems?
 
