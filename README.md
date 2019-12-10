@@ -91,7 +91,7 @@ collections:
       - { label: "Type", name: "type", widget: "hidden", default: "author" }
       - { label: "Short Description", name: "short_desc", widget: "string" }
       - { label: "Image", name: "thumbnail", widget: "image" }
-      - { label: "Bio", name: "bio", widget: "markdown" }
+      - { label: "Bio", name: "body", widget: "markdown" }
 
 ```
 
