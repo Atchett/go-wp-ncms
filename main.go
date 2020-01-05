@@ -35,7 +35,7 @@ func main() {
 		}
 	}
 
-	err := getWPData(*siteURL, *numberPerPage)
+	err := wpDataFromURL(*siteURL, *numberPerPage)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)

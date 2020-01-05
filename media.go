@@ -10,8 +10,8 @@ import (
 	"path/filepath"
 )
 
-var mediaDataDir = getDirectory(media{}, false)
-var mediaFilesDir = getDirectory(media{}, true)
+var mediaDataDir = directoryFromStruct(media{}, false)
+var mediaFilesDir = directoryFromStruct(media{}, true)
 
 type mediaList []media
 
@@ -41,7 +41,7 @@ type full struct {
 	SourceURL string `json:"source_url"`
 }
 
-func getMediaData() error {
+func mediaDataFromFiles() error {
 
 	// get a list of all the files in the dir
 	fileList, err := ioutil.ReadDir(mediaDataDir)
@@ -78,11 +78,11 @@ func getMediaData() error {
 	return nil
 }
 
-// getMedianame - gets the media name from the passed in ID
-func getMedianame(mID int, titleSlug string) (string, error) {
+// mediaNameFromID - gets the media name from the passed in ID
+func mediaNameFromID(mID int, titleSlug string) (string, error) {
 
 	if len(mediaData) == 0 {
-		err := getMediaData()
+		err := mediaDataFromFiles()
 		if err != nil {
 			return "", err
 		}
@@ -93,7 +93,7 @@ func getMedianame(mID int, titleSlug string) (string, error) {
 			// change the filename so that it's more obvious which post it belongs to
 			fileExt := filepath.Ext(mediaData[i].MediaDetails.Sizes.Full.FileName)
 			changedFilename := fmt.Sprintf("%s%s", titleSlug, fileExt)
-			downloadedFile, err := getMediaFile(mediaData[i].MediaDetails.Sizes.Full.SourceURL, changedFilename)
+			downloadedFile, err := mediaFileFromURL(mediaData[i].MediaDetails.Sizes.Full.SourceURL, changedFilename)
 			if err != nil {
 				return "", err
 			}
@@ -104,10 +104,10 @@ func getMedianame(mID int, titleSlug string) (string, error) {
 	return "", nil
 }
 
-// getMediaFile - access the data from the API for local store / processing
+// mediaFileFromURL - access the data from the API for local store / processing
 // URL - URL to the file for downloading
 // f - the filename to use when storing the file
-func getMediaFile(URL string, f string) (string, error) {
+func mediaFileFromURL(URL string, f string) (string, error) {
 
 	fileToDownload := filepath.Join(mediaFilesDir, f)
 
@@ -142,17 +142,17 @@ func getMediaFile(URL string, f string) (string, error) {
 	return fileToDownload, nil
 }
 
-func getFileExt(file string) (string, error) {
+func fileExtFromFile(file string) (string, error) {
 	f, err := os.Open(file)
 	if err != nil {
 		return "", err
 	}
 	defer f.Close()
-	ct, err := getFileContentType(f)
+	ct, err := fileContentTypeFromFile(f)
 	if err != nil {
 		return "", err
 	}
-	fExt, err := fileExtFromMimeType(ct)
+	fExt, err := imageFileExtFromMimeType(ct)
 	if err != nil {
 		return "", err
 	}
@@ -161,7 +161,7 @@ func getFileExt(file string) (string, error) {
 }
 
 // Read the first 512 bytes to detect the content type of the file
-func getFileContentType(out *os.File) (string, error) {
+func fileContentTypeFromFile(out *os.File) (string, error) {
 	buffer := make([]byte, 512)
 	_, err := out.Read(buffer)
 	if err != nil {

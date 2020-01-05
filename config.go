@@ -4,14 +4,14 @@ import (
 	"errors"
 )
 
-//getContentTypes - a list of types to use in the retreival of data from WP
-func getContentTypes() []string {
+//contentTypes - a list of types to use in the retreival of data from WP
+func contentTypes() []string {
 	return []string{"posts", "media", "users", "categories", "tags"}
 }
 
-// fileExtFromMimeType - returns the file extension based on the mime type
+// imageFileExtFromMimeType - returns the file extension based on the mime type
 // t - mime type
-func fileExtFromMimeType(t string) (string, error) {
+func imageFileExtFromMimeType(t string) (string, error) {
 
 	m := make(map[string]string)
 
@@ -33,10 +33,10 @@ func fileExtFromMimeType(t string) (string, error) {
 
 }
 
-// getDirectory - gets the directory to use based on the type of the struct passed in
+// directoryFromStruct - gets the directory to use based on the type of the struct passed in
 // s - struct to use (e.g. post)
 // isExport - wether this is for the exprt data
-func getDirectory(s interface{}, isExport bool) string {
+func directoryFromStruct(s interface{}, isExport bool) string {
 
 	d := ""
 	switch s.(type) {
@@ -45,28 +45,22 @@ func getDirectory(s interface{}, isExport bool) string {
 		if isExport {
 			d = "data/export/posts"
 		}
-		break
 	case media:
 		d = "data/api/media"
 		if isExport {
 			d = "data/export/files"
 		}
-		break
 	case author:
 		d = "data/api/users"
 		if isExport {
 			d = "data/export/authors"
 		}
-		break
 	case category:
 		d = "data/api/categories"
-		break
 	case tag:
 		d = "data/api/tags"
-		break
 	default:
 		d = "data/api"
-		break
 	}
 	return d
 }

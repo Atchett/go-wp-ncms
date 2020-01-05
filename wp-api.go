@@ -11,17 +11,17 @@ import (
 	"path/filepath"
 )
 
-func getWPData(URL string, numberPerPage int) error {
+func wpDataFromURL(URL string, numberPerPage int) error {
 
 	var i interface{} // empty interface to pass into get default dir
-	outputDir := getDirectory(i, false)
+	outputDir := directoryFromStruct(i, false)
 	// check to see if the API output directory exists
 	_, err := os.Stat(outputDir)
 	if os.IsNotExist(err) {
 		// if it doesn't run the get
-		for _, t := range getContentTypes() {
+		for _, t := range contentTypes() {
 			fmt.Fprintf(os.Stdout, "Getting %s data from WP API...\n", t)
-			err := getDataFromWPAPI(WPSiteURL, t, numberPerPage)
+			err := wpDataFromWpAPI(WPSiteURL, t, numberPerPage)
 			if err != nil {
 				return err
 			}
@@ -31,8 +31,8 @@ func getWPData(URL string, numberPerPage int) error {
 	return nil
 }
 
-// getDataFromWPAPI - access the data from the API for local store / processing
-func getDataFromWPAPI(URL string, contentType string, numberPerPage int) error {
+// wpDataFromWpAPI - access the data from the API for local store / processing
+func wpDataFromWpAPI(URL string, contentType string, numberPerPage int) error {
 
 	_, err := url.ParseRequestURI(URL)
 	if err != nil {

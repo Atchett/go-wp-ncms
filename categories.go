@@ -16,10 +16,10 @@ type category struct {
 
 var categoryData categoryList
 
-var categoryDataDir = getDirectory(category{}, false)
+var categoryDataDir = directoryFromStruct(category{}, false)
 
-// getCategoryData - gets the categories from the files saved from the WP API
-func getCategoryData() error {
+// categoryDataFromFiles - gets the categories from the files saved from the WP API
+func categoryDataFromFiles() error {
 
 	// get a list of all the files in the dir
 	fileList, err := ioutil.ReadDir(categoryDataDir)
@@ -50,11 +50,11 @@ func getCategoryData() error {
 	return nil
 }
 
-// getCategoryName - gets the category name from the string ID
-func getCategoryName(cID int) (string, error) {
+// categoryNameFromID - gets the category name from the string ID
+func categoryNameFromID(cID int) (string, error) {
 
 	if len(categoryData) == 0 {
-		err := getCategoryData()
+		err := categoryDataFromFiles()
 		if err != nil {
 			return "", err
 		}

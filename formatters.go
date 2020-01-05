@@ -43,7 +43,7 @@ func formatHTMLToMD(c string) (string, error) {
 			stURL = fmt.Sprintf("%s%s", WPSiteURL, link)
 		}
 		//fmt.Fprintf(os.Stdout, "getting file: %s\n", stURL)
-		getMediaFile(stURL, path.Base(link))
+		mediaFileFromURL(stURL, path.Base(link))
 
 	}
 

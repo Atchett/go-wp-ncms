@@ -16,10 +16,10 @@ type tag struct {
 
 var tagData tagList
 
-var tagDataDir = getDirectory(tag{}, false)
+var tagDataDir = directoryFromStruct(tag{}, false)
 
-// getTagData - gets the tags from the json file
-func getTagData() error {
+// tagDataFromFiles - gets the tags from the json file
+func tagDataFromFiles() error {
 
 	// get a list of all the files in the dir
 	fileList, err := ioutil.ReadDir(tagDataDir)
@@ -49,11 +49,11 @@ func getTagData() error {
 	return nil
 }
 
-// getTagName - gets the tag name from the string ID
-func getTagName(tID int) (string, error) {
+// tagNameFromID - gets the tag name from the string ID
+func tagNameFromID(tID int) (string, error) {
 
 	if len(tagData) == 0 {
-		err := getTagData()
+		err := tagDataFromFiles()
 		if err != nil {
 			return "", err
 		}

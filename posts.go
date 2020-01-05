@@ -35,11 +35,11 @@ type content struct {
 
 var postList posts
 
-var postDataDir = getDirectory(post{}, false)
-var postsFilePath = getDirectory(post{}, true)
+var postDataDir = directoryFromStruct(post{}, false)
+var postsFilePath = directoryFromStruct(post{}, true)
 
-// getPostData - gets the post data from the post files saved from the API
-func getPostData() error {
+// postDataFromFiles - gets the post data from the post files saved from the API
+func postDataFromFiles() error {
 
 	// get a list of all the files in the dir
 	fileList, err := ioutil.ReadDir(postDataDir)
@@ -76,7 +76,7 @@ func generatePostFiles() error {
 	fmt.Println("Creating the post markdown files...")
 
 	if len(postList) == 0 {
-		err := getPostData()
+		err := postDataFromFiles()
 		if err != nil {
 			return err
 		}
@@ -104,16 +104,16 @@ func generatePostFiles() error {
 		fmt.Fprintln(w, "---")
 		fmt.Fprintf(w, "title: %q\n", formatCleanHTML(post.Title.Rendered))
 		fmt.Fprintln(w, "type: blog")
-		fmt.Fprintln(w, "author:", getAuthorName(post.Author))
+		fmt.Fprintln(w, "author:", authorNameFromID(post.Author))
 		fmt.Fprintf(w, "date: %q\n", post.Date)
-		mname, err := getMedianame(post.FeaturedImage, post.Slug)
+		mname, err := mediaNameFromID(post.FeaturedImage, post.Slug)
 		if err != nil {
 			mname = ""
 		}
 		fmt.Fprintln(w, "featuredImage: /assets/", mname)
 		fmt.Fprintln(w, "featured: false")
 		for _, cID := range post.Categories {
-			catName, err := getCategoryName(cID)
+			catName, err := categoryNameFromID(cID)
 			if err != nil {
 				return err
 			}
@@ -121,7 +121,7 @@ func generatePostFiles() error {
 		}
 		fmt.Fprintln(w, "tags:")
 		for _, tID := range post.Tags {
-			tname, err := getTagName(tID)
+			tname, err := tagNameFromID(tID)
 			if err != nil {
 				return err
 			}

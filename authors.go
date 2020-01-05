@@ -26,11 +26,11 @@ type avatar struct {
 }
 
 var authorData authorList
-var authorDataDir = getDirectory(author{}, false)
-var authorsFilePath = getDirectory(author{}, true)
+var authorDataDir = directoryFromStruct(author{}, false)
+var authorsFilePath = directoryFromStruct(author{}, true)
 
-// getAuthorData - gets the author data from the files saved from the WP API
-func getAuthorData() {
+// authorDataFromFiles - gets the author data from the files saved from the WP API
+func authorDataFromFiles() {
 
 	// get a list of all the files in the dir
 	fileList, err := ioutil.ReadDir(authorDataDir)
@@ -60,11 +60,11 @@ func getAuthorData() {
 	}
 }
 
-// getAuthorName - returns the author name from the ID
-func getAuthorName(id int) string {
+// authorNameFromID - returns the author name from the ID
+func authorNameFromID(id int) string {
 
 	if len(authorData) == 0 {
-		getAuthorData()
+		authorDataFromFiles()
 	}
 
 	a := "Not found"
@@ -102,7 +102,7 @@ func generateAuthorFiles() error {
 		fmt.Fprintf(w, "name: %q\n", author.Name)
 		fmt.Fprintln(w, "type: author")
 		fmt.Fprintln(w, "short_desc:", author.Description)
-		avatar, err := getAvatar(author.Avatar.URL, author.Slug)
+		avatar, err := avatarFromURL(author.Avatar.URL, author.Slug)
 		if err != nil {
 			return err
 		}
@@ -117,11 +117,11 @@ func generateAuthorFiles() error {
 	return nil
 }
 
-// getAvatar - gets the avatar set in the WP API
-func getAvatar(URL string, filename string) (string, error) {
+// avatarFromURL - gets the avatar set in the WP API
+func avatarFromURL(URL string, filename string) (string, error) {
 
 	// download the file
-	downloadedFile, err := getMediaFile(URL, filename)
+	downloadedFile, err := mediaFileFromURL(URL, filename)
 	if err != nil {
 		return "", err
 	}
@@ -132,7 +132,7 @@ func getAvatar(URL string, filename string) (string, error) {
 		// find the mime type
 		// check the filename (if no extension)
 		// get mime type
-		ext, err = getFileExt(downloadedFile)
+		ext, err = fileExtFromFile(downloadedFile)
 		if err != nil {
 			return "", err
 		}
