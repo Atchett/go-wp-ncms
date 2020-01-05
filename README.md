@@ -1,7 +1,7 @@
 
 ## Why?
 
-I needed some sort of exported that exported some Wordpress post data from the API in a format that I could use in a site that was using Netlify CMS and Gatsby.
+I needed some sort of exporter that exported some Wordpress post data from the API in a format that I could use in a site that was using Netlify CMS and Gatsby.
 
 I couldn't find exactly what I needed so thought I'd put a very simple / quick project together.
 
@@ -91,7 +91,7 @@ collections:
       - { label: "Type", name: "type", widget: "hidden", default: "author" }
       - { label: "Short Description", name: "short_desc", widget: "string" }
       - { label: "Image", name: "thumbnail", widget: "image" }
-      - { label: "Bio", name: "bio", widget: "markdown" }
+      - { label: "Bio", name: "body", widget: "markdown" }
 
 ```
 
